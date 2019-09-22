@@ -23,14 +23,15 @@ let login = (req, res) => {
 
   // Set jwt token in cookie as 'access_token'
   res.cookie('access_token', token, {
-    maxAge: 365 * 24 * 60 * 60 * 100, // session only cookie
+    // maxAge: 365 * 24 * 60 * 60 * 100, // session only cookie
     httpOnly: true // cannot be modified using XSS or JS
   })
   
   // Also as API send back token
   res.status(200).send({
     message: 'Authenticated! Use this token in your Authorization header as Bearer token',
-    token
+    token,
+    id: user.id
   })  
 }
 

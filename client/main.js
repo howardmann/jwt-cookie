@@ -3,6 +3,7 @@ let $main = document.querySelector('#main')
 let $secret = document.querySelector('#secret')
 let $logout = document.querySelector('#logout')
 let $admin = document.querySelector('#admin')
+let $profile = document.querySelector('#profile')
 
 $form.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -47,5 +48,19 @@ $logout.addEventListener('click', () => {
   axios.get('http://localhost:3000/auth/logout', {withCredentials: true})  
     .then(resp => {
       $main.innerHTML = ''
+    })
+})
+
+$profile.addEventListener('click', () => {
+  axios.get('http://localhost:3000/api/profile', {withCredentials: true})
+    .then(resp => {
+      let user = resp.data
+      $main.innerHTML = `
+        <p>email: ${user.email}</p>
+        <p>id: ${user.id}</p>,
+      `
+    })
+    .catch(err => {
+      $main.innerHTML = 'Must login to view'
     })
 })

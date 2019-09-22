@@ -16,3 +16,10 @@ api.users = (req, res) => {
   let users = User.list()
   res.send(users)
 }
+
+api.profile = (req, res) => {
+  // access id from req.auth from verifyToken middleware
+  let id = Number(req.auth.id)
+  let user = User.findBy('id', id)
+  res.send(user)
+}

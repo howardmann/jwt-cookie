@@ -14,6 +14,7 @@ router
   .get('/', api.ping)
   .get('/api/secret', auth.verifyToken, api.secret)
   .get('/api/users', auth.verifyToken, auth.adminRequired, api.users)
+  .get('/api/profile', auth.verifyToken, api.profile)
 
 module.exports = router
 
