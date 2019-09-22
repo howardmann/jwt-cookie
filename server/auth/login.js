@@ -11,7 +11,9 @@ let login = (req, res) => {
   let user = User.findBy('email', email)
   let passwordValid = user && bcrypt.compareSync(password, user.passwordHash)
   
-  if (!passwordValid) { throw new Error('invalid email or password')}
+  if (!passwordValid) { 
+    return res.sendStatus(403)
+  }
 
   // Create json webtoken with user email and id
   let token = jwt.sign({
@@ -21,12 +23,12 @@ let login = (req, res) => {
 
   // Set jwt token in cookie as 'access_token'
   res.cookie('access_token', token, {
-    maxAge: 3600, // expires after 1 hr
+    maxAge: 365 * 24 * 60 * 60 * 100, // session only cookie
     httpOnly: true // cannot be modified using XSS or JS
   })
-
+  
   // Also as API send back token
-  res.send({
+  res.status(200).send({
     message: 'Authenticated! Use this token in your Authorization header as Bearer token',
     token
   })  

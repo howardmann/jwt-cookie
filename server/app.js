@@ -1,5 +1,6 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const {PORT} = require('./config')
 const app = express()
 
@@ -7,6 +8,11 @@ const app = express()
 app.use(express.json())
 // cookie parser
 app.use(cookieParser())
+// enable cors for frontend
+app.use(cors({
+  origin: ['http://127.0.0.1:5500', 'http://localhost:8000', 'http://exultant-meal.surge.sh'],
+  credentials: true
+}))
 
 app.use(require('./routes'))
 
@@ -19,7 +25,7 @@ app.use(function (err, req, res, next) {
       error: err.message
     });
   } else {
-    next();
+    next()
   }
 });
 
